@@ -6,24 +6,30 @@ const scene = new THREE.Scene();
 
 // add geo and material to scene using mesh
 const geometry = new THREE.BoxGeometry(1, 1, 1);
-// // const geometry = new THREE.SphereGeometry(1, 16, 16);
-// // const geometry = new THREE.PlaneGeometry(1, 1);
-// const geometry = new THREE.TorusKnotGeometry(10, 3, 300, 16);
-const cubeMaterial = new THREE.MeshBasicMaterial({ color: 'red', wireframe: true });
+const planeGeomwtery = new THREE.PlaneGeometry(1, 2);
+const material = new THREE.MeshBasicMaterial({});
 
-// Create a custom geometry
-// vertices are items paasing in to buffer
-// const vertices = new Float32Array([0, 0, 0, 0, 2, 0, 2, 0, 0]);
-// const bufferAtribute = new THREE.BufferAttribute(vertices, 3);
-// const geometry = new THREE.BufferGeometry();
-// geometry.setAttribute('position', bufferAtribute);
+material.color = new THREE.Color(0x00ff00);
+// material.transparent = true;
+// material.opacity = 0.5;
+material.side = THREE.DoubleSide;
+scene.fog = new THREE.Fog(0xffffff, 1, 10);
+// material.fog = false;
+scene.background = new THREE.Color(0xffffff);
 
-const cubeMesh = new THREE.Mesh(geometry, cubeMaterial);
-scene.add(cubeMesh);
+const cubeMesh = new THREE.Mesh(geometry, material);
+const cubeMesh1 = new THREE.Mesh(geometry, material);
+cubeMesh1.position.x = 1.5;
+const planeMesh = new THREE.Mesh(planeGeomwtery, material);
+planeMesh.position.x = -1.5;
+// scene.add(cubeMesh);
 
-cubeMesh.rotation.reorder('YXZ');
-cubeMesh.rotation.y = THREE.MathUtils.degToRad(90);
-cubeMesh.rotation.x = THREE.MathUtils.degToRad(45);
+const group = new THREE.Group();
+group.add(cubeMesh);
+group.add(cubeMesh1);
+group.add(planeMesh);
+
+scene.add(group);
 
 // Init camera
 const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 10000);
@@ -37,6 +43,7 @@ camera.position.z = 5;
 const canvas = document.querySelector('canvas.threejs');
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 // control
 const controls = new OrbitControls(camera, canvas);
