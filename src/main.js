@@ -5,18 +5,22 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const scene = new THREE.Scene();
 
 // add geo and material to scene using mesh
-const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+// const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
 const cubeMaterial = new THREE.MeshBasicMaterial({ color: 'red', wireframe: true });
-const cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
+
+// Create a custom geometry
+// vertices are items paasing in to buffer
+const vertices = new Float32Array([0, 0, 0, 0, 2, 0, 2, 0, 0]);
+const bufferAtribute = new THREE.BufferAttribute(vertices, 3);
+const geometry = new THREE.BufferGeometry();
+geometry.setAttribute('position', bufferAtribute);
+
+const cubeMesh = new THREE.Mesh(geometry, cubeMaterial);
 scene.add(cubeMesh);
 
 cubeMesh.rotation.reorder('YXZ');
 cubeMesh.rotation.y = THREE.MathUtils.degToRad(90);
 cubeMesh.rotation.x = THREE.MathUtils.degToRad(45);
-
-const axesHelper = new THREE.AxesHelper(2);
-// scene.add(axesHelper);
-cubeMesh.add(axesHelper);
 
 // Init camera
 const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 10000);
@@ -34,25 +38,15 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 // control
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
-controls.autoRotate = true;
+// controls.autoRotate = true;
 
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
-// const clock = new THREE.Clock();
-// let previousTime = 0;
 
 const animate = () => {
-  // const currentTime = clock.getElapsedTime();
-  // const delta = currentTime - previousTime;
-  // previousTime = currentTime;
-
-  // cubeMesh.rotation.y += THREE.MathUtils.degToRad(1) * delta * 20;
-  // cubeMesh.scale.x = Math.sin(currentTime) * 20 + 2;
-  // cubeMesh.position.x = Math.sin(currentTime) + 2;
-
   controls.update();
   renderer.render(scene, camera);
   window.requestAnimationFrame(animate);
