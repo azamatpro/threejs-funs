@@ -5,15 +5,18 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const scene = new THREE.Scene();
 
 // add geo and material to scene using mesh
-// const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+// // const geometry = new THREE.SphereGeometry(1, 16, 16);
+// // const geometry = new THREE.PlaneGeometry(1, 1);
+// const geometry = new THREE.TorusKnotGeometry(10, 3, 300, 16);
 const cubeMaterial = new THREE.MeshBasicMaterial({ color: 'red', wireframe: true });
 
 // Create a custom geometry
 // vertices are items paasing in to buffer
-const vertices = new Float32Array([0, 0, 0, 0, 2, 0, 2, 0, 0]);
-const bufferAtribute = new THREE.BufferAttribute(vertices, 3);
-const geometry = new THREE.BufferGeometry();
-geometry.setAttribute('position', bufferAtribute);
+// const vertices = new Float32Array([0, 0, 0, 0, 2, 0, 2, 0, 0]);
+// const bufferAtribute = new THREE.BufferAttribute(vertices, 3);
+// const geometry = new THREE.BufferGeometry();
+// geometry.setAttribute('position', bufferAtribute);
 
 const cubeMesh = new THREE.Mesh(geometry, cubeMaterial);
 scene.add(cubeMesh);
