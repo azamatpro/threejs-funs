@@ -9,13 +9,14 @@ const geometry = new THREE.BoxGeometry(1, 1, 1);
 const planeGeomwtery = new THREE.PlaneGeometry(1, 2);
 const material = new THREE.MeshBasicMaterial({});
 
-material.color = new THREE.Color(0x00ff00);
+// material.color = new THREE.Color(0x00ff00);
 // material.transparent = true;
 // material.opacity = 0.5;
 material.side = THREE.DoubleSide;
-scene.fog = new THREE.Fog(0xffffff, 1, 10);
+// scene.fog = new THREE.Fog(0xffffff, 1, 10);
+
 // material.fog = false;
-scene.background = new THREE.Color(0xffffff);
+// scene.background = new THREE.Color(0xffffff);
 
 const cubeMesh = new THREE.Mesh(geometry, material);
 const cubeMesh1 = new THREE.Mesh(geometry, material);
