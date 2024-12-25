@@ -1,36 +1,48 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { Pane } from 'tweakpane';
 
 // Init scene
 const scene = new THREE.Scene();
 
+const pane = new Pane();
+
 // add geo and material to scene using mesh
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 const planeGeomwtery = new THREE.PlaneGeometry(1, 2);
-const material = new THREE.MeshBasicMaterial({});
+const TKgeometry = new THREE.TorusKnotGeometry(0.5, 0.15, 100, 16);
+const material = new THREE.MeshPhongMaterial();
+material.shininess = 90;
+material.color = new THREE.Color('red');
 
-// material.color = new THREE.Color(0x00ff00);
-// material.transparent = true;
-// material.opacity = 0.5;
+pane.addBinding(material, 'shininess', {
+  step: 1,
+  min: 0,
+  max: 100,
+});
+
 material.side = THREE.DoubleSide;
-// scene.fog = new THREE.Fog(0xffffff, 1, 10);
-
-// material.fog = false;
-// scene.background = new THREE.Color(0xffffff);
 
 const cubeMesh = new THREE.Mesh(geometry, material);
-const cubeMesh1 = new THREE.Mesh(geometry, material);
+const cubeMesh1 = new THREE.Mesh(TKgeometry, material);
 cubeMesh1.position.x = 1.5;
 const planeMesh = new THREE.Mesh(planeGeomwtery, material);
 planeMesh.position.x = -1.5;
 // scene.add(cubeMesh);
 
-const group = new THREE.Group();
-group.add(cubeMesh);
-group.add(cubeMesh1);
-group.add(planeMesh);
+// const group = new THREE.Group();
+scene.add(cubeMesh);
+scene.add(cubeMesh1);
+scene.add(planeMesh);
 
-scene.add(group);
+// scene.add(group);
+
+const light = new THREE.AmbientLight(0xffffff, 0.2);
+
+const pointLight = new THREE.PointLight(0xffffff, 1.1);
+scene.add(light);
+pointLight.position.set(5, 5, 5);
+scene.add(pointLight);
 
 // Init camera
 const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 10000);
